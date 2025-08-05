@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opportunity Canvas Template</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .canvas-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .canvas-header {
+            background: #ffffff;
+            padding: 20px;
+            border-bottom: 2px solid #e5e5e5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .canvas-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .canvas-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .canvas-meta {
+            display: flex;
+            gap: 20px;
+        }
+
+        .meta-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .meta-value {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            min-width: 120px;
+            background: #f9f9f9;
+            color: #333;
+        }
+
+        .canvas-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: auto auto auto;
+            gap: 0;
+            border: 1px solid #e5e5e5;
+        }
+
+        .canvas-section {
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #e5e5e5;
+            border-bottom: 1px solid #e5e5e5;
+            background: white;
+            min-height: 150px;
+        }
+
+        .canvas-section:last-child {
+            border-right: none;
+        }
+
+        /* Remove double borders */
+        .canvas-section:nth-child(5n) {
+            border-right: none;
+        }
+
+        /* Grid positioning for top sections */
+        .users-customers {
+            grid-column: 1;
+            grid-row: 1 / 3; /* Span rows 1 and 2 */
+        }
+
+        .problems {
+            grid-column: 2;
+            grid-row: 1;
+        }
+
+        .solution-idea {
+            grid-column: 3;
+            grid-row: 1 / 3; /* Span rows 1 and 2 */
+        }
+
+        .value-proposition {
+            grid-column: 4;
+            grid-row: 1;
+        }
+
+        .user-metrics {
+            grid-column: 5;
+            grid-row: 1 / 3; /* Span rows 1 and 2 */
+            border-right: none;
+        }
+
+        /* Grid positioning for middle sections (nested) */
+        .solutions-today {
+            grid-column: 2;
+            grid-row: 2;
+        }
+
+        .adoption-strategy {
+            grid-column: 4;
+            grid-row: 2;
+        }
+
+        /* Grid positioning for bottom sections */
+        .business-challenge {
+            grid-column: 1 / 3;
+            grid-row: 3;
+            border-bottom: none;
+        }
+
+        .budget {
+            grid-column: 3;
+            grid-row: 3;
+            border-bottom: none;
+        }
+
+        .business-impact {
+            grid-column: 4 / 6;
+            grid-row: 3;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        /* Empty cells for alignment */
+        .empty-cell {
+            grid-row: 2;
+            border-right: 1px solid #e5e5e5;
+            border-bottom: 1px solid #e5e5e5;
+            background: white;
+            min-height: 100px; /* Ensure empty cells have height */
+        }
+
+        .empty-cell:last-child {
+            border-right: none;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .section-icon {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .section-content {
+            padding: 16px;
+            background: white;
+            flex: 1;
+        }
+
+        .section-content ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .section-content li {
+            position: relative;
+            padding-left: 16px;
+            font-size: 13px;
+            color: #333;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        .section-content li:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-content li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #666;
+        }
+
+        /* Section colors */
+        .users-customers .section-header { background-color: #f3f0ff; }
+
+        .problems .section-header { background-color: #fef2f2; }
+
+        .solution-idea .section-header { background-color: #eff6ff; }
+
+        .value-proposition .section-header { background-color: #fef3c7; }
+
+        .user-metrics .section-header { background-color: #f0fdf4; }
+
+        .solutions-today .section-header { background-color: #fdf4ff; }
+
+        .adoption-strategy .section-header { background-color: #fff7ed; }
+
+        .business-challenge .section-header { background-color: #f0fdf4; }
+
+        .budget .section-header { background-color: #ecfdf5; }
+
+        .business-impact .section-header { background-color: #f0f9ff; }
+
+        @media (max-width: 1200px) {
+            .canvas-grid {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto;
+            }
+
+            .canvas-section,
+            .empty-cell {
+                grid-column: auto !important;
+                grid-row: auto !important;
+                border-right: 1px solid #e5e5e5;
+                border-bottom: 1px solid #e5e5e5;
+            }
+
+            .canvas-section:nth-child(even) {
+                border-right: none;
+            }
+
+            .canvas-section:nth-last-child(-n+2) {
+                border-bottom: none;
+            }
+
+            .empty-cell {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .canvas-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .canvas-section {
+                grid-column: 1 !important;
+                grid-row: auto !important;
+                border-right: none;
+                border-bottom: 1px solid #e5e5e5;
+            }
+
+            .canvas-section:last-child {
+                border-bottom: none;
+            }
+
+            .canvas-header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+
+            .canvas-meta {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas-container">
+        <div class="canvas-header">
+            <div>
+                <h1 class="canvas-title">Opportunity canvas</h1>
+                <p class="canvas-subtitle">Template</p>
+            </div>
+        </div>
+
+        <div class="canvas-grid">
+            <!-- Top Row -->
+            <div class="canvas-section users-customers">
+                <div class="section-header">
+                    <div class="section-icon">👥</div>
+                    <div class="section-title">Users & customers</div>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li>tbd...</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="canvas-section problems">
+                <div class="section-header">
+                    <div class="section-icon">⚠️</div>
+                    <div class="section-title">Problems</div>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li>tbd...</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="canvas-section solution-idea">
+                <div class="section-header">
+                    <div class="section-icon">💡</div>
+                    <div class="section-title">Solution idea</div>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li>tbd...</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="canvas-section value-proposition">
+                <div class="section-header">
+                    <div class="section-icon">🎯</div>
+                    <div class="section-title">What will users do to get value?</div>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li>tbd...</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="canvas-section user-metrics">
+                <div class="section-header">
+                    <div class="section-icon">📊</div>
+                    <div class="section-title">User metrics</div>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li>tbd...</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Middle Row -->
+            
+            <div class="canvas-section solutions-today">
+                <div class="section-header">
+                    <div class="section-icon">🔧</div>
+                    <div class="section-title">Solutions today</div>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li>tbd...</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="canvas-section adoption-strategy">
+                <div class="section-header">
+                    <div class="section-icon">📈</div>
+                    <div class="section-title">Adoption strategy</div>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li>tbd...</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Row -->
+            <div class="canvas-section business-challenge">
+                <div class="section-header">
+                    <div class="section-icon">🏢</div>
+                    <div class="section-title">Business challenge</div>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li>tbd...</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="canvas-section budget">
+                <div class="section-header">
+                    <div class="section-icon">💰</div>
+                    <div class="section-title">Budget</div>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li>tbd...</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="canvas-section business-impact">
+                <div class="section-header">
+                    <div class="section-icon">🎯</div>
+                    <div class="section-title">Business impact</div>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li>tbd...</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Guidance Table -->
+    <div style="max-width: 1400px; margin: 40px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <h2 style="margin-bottom: 20px; color: #333; font-size: 24px; font-weight: 600;">Opportunity Canvas Section Guidance</h2>
+        
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+            <thead>
+                <tr style="background-color: #f8f9fa;">
+                    <th style="padding: 12px; text-align: left; border: 1px solid #dee2e6; font-weight: 600; width: 20%;">Section</th>
+                    <th style="padding: 12px; text-align: left; border: 1px solid #dee2e6; font-weight: 600; width: 80%;">Guidance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #dee2e6; vertical-align: top; font-weight: 600;">Users & customers</td>
+                    <td style="padding: 12px; border: 1px solid #dee2e6;">What types of users and customers have the challenges your solution addresses? It's likely not all users. Describe the characteristics of the people who have the problems you just described.</td>
+                </tr>
+                <tr style="background-color: #f8f9fa;">
+                    <td style="padding: 12px; border: 1px solid #dee2e6; vertical-align: top; font-weight: 600;">Problems</td>
+                    <td style="padding: 12px; border: 1px solid #dee2e6;">What problems do prospective users and customers have today that your solution addresses? What needs, goals, or jobs-to-be-done does your solution address?</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #dee2e6; vertical-align: top; font-weight: 600;">Solution idea</td>
+                    <td style="padding: 12px; border: 1px solid #dee2e6;">List a specific product, feature, or enhancement idea. Describe it as best you can.</td>
+                </tr>
+                <tr style="background-color: #f8f9fa;">
+                    <td style="padding: 12px; border: 1px solid #dee2e6; vertical-align: top; font-weight: 600;">What will users do to get value?</td>
+                    <td style="padding: 12px; border: 1px solid #dee2e6;">If your target audience has your solution, what will they do?</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #dee2e6; vertical-align: top; font-weight: 600;">User metrics</td>
+                    <td style="padding: 12px; border: 1px solid #dee2e6;">How will you measure the value that users receive?</td>
+                </tr>
+                <tr style="background-color: #f8f9fa;">
+                    <td style="padding: 12px; border: 1px solid #dee2e6; vertical-align: top; font-weight: 600;">Solutions today</td>
+                    <td style="padding: 12px; border: 1px solid #dee2e6;">How do users address their problems today? List competitive products or work-around approaches your users have for meeting their needs.</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #dee2e6; vertical-align: top; font-weight: 600;">Adoption strategy</td>
+                    <td style="padding: 12px; border: 1px solid #dee2e6;">How will customers and users discover, learn to use, and adopt your solution?</td>
+                </tr>
+                <tr style="background-color: #f8f9fa;">
+                    <td style="padding: 12px; border: 1px solid #dee2e6; vertical-align: top; font-weight: 600;">Business challenge</td>
+                    <td style="padding: 12px; border: 1px solid #dee2e6;">How do these customer challenges impact your business? If you don't solve these problems for your customers and users, will it hurt your business? How?</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #dee2e6; vertical-align: top; font-weight: 600;">Budget</td>
+                    <td style="padding: 12px; border: 1px solid #dee2e6;">How much money or team time would you budget to solve this problem and achieve this outcome?</td>
+                </tr>
+                <tr style="background-color: #f8f9fa;">
+                    <td style="padding: 12px; border: 1px solid #dee2e6; vertical-align: top; font-weight: 600;">Business impact</td>
+                    <td style="padding: 12px; border: 1px solid #dee2e6;">What business performance metrics will be affected by the success of this solution? These usually change as a consequence of customers using your solution.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
